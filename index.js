@@ -35,6 +35,8 @@ app.post("/webhook", function (req, res) {
       entry.messaging.forEach(function(event) {
         if (event.postback) {
           processPostback(event);
+        } else if (event.message) {
+          processMessage(event);
         }
       });
     });
@@ -87,4 +89,32 @@ function sendMessage(recipientId, message) {
       console.log("Error sending message: " + response.error);
     }
   });
+}
+
+function processMessage(event) {
+  if (!event.message.is_echo) {
+    var message = event.message;
+    var senderId = event.sender.id;
+
+    console.log("Received message from senderId: " + senderId);
+    console.log("Message is: " + JSON.stringify(message));
+
+    // You may get a text or attachment but not both
+    if (message.text) {
+      var formattedMsg = message.text.toLowerCase().trim();
+
+      // If we receive a text message, check to see if it matches any special
+      // keywords and send back the corresponding movie detail.
+      // Otherwise, search for new movie.
+      switch (formattedMsg) {
+        case "analyze":
+          sendMessage(senderId, {text: "Thanks for choosing Analyze!"});
+          break;
+        default:
+          sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+      }
+    } else if (message.attachments) {
+      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+    }
+  }
 }
