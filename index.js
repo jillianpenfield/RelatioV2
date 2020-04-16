@@ -66,7 +66,7 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "Welcome to Relatio - thanks for using! Your actions are 'Analyze' or 'Get Help.' ";
+      var message = `${greeting}Welcome to Relatio - thanks for using! Your actions are 'Analyze' or 'Get Help.' `;
       sendMessage(senderId, {text: message});
     });
   }
@@ -76,7 +76,7 @@ function processPostback(event) {
 function sendMessage(recipientId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+    qs: {access_token: EAAliG7mvpQkBAIRyTZB4eZBOLmtFrkTMm7tVAFa0jMuqgDz3PDjXZADcGhBzLvLt7XlcQBpkw99upVyJbVSggISMZB3NyJIs1N4ZBtfKYg9SlfXZANiw5LTbl3KMLWoB2oqmRLgxBQZB55TwTOItW89tNgYaEZCKjiCIfpAN58gLCAZDZD},
     method: "POST",
     json: {
       recipient: {id: recipientId},
