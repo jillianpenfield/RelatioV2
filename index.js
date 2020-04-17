@@ -150,18 +150,18 @@ function analyzeMessages(senderId, text) {
       var text = '';
 
       for (tone in tones) {
-        tonesMap.set(String(tones[tone]["tone_name"]), String(tones[tone]["score"]));
+        tonesMap.set(String(tones[tone]["tone_name"]), tones[tone]["score"]);
       }
 
       for (emotion in emotions) {
         if (tonesMap.has(emotions[emotion])) {
-          text = text + emotions[emotion] + ": " + tonesMap.get(emotions[emotion]) + '\n';
+          text = text + emotions[emotion] + ": " + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + ' %\n';
         } else {
-          text = text + emotions[emotion] + ": 0" + '\n';
+          text = text + emotions[emotion] + ": 0 %" + '\n';
         }
       }
 
-      text = text + '\n' + '\n' + "For more information on what these percentages mean, type 'More Info'.";
+      text = text + '\n' + "For more information on what these percentages mean, type 'More Info'.";
 
       console.log("Message Analysis Output: " + JSON.stringify(tones, null, 2));
       // console.log("STRING: " + toneString);
