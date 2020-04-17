@@ -7,6 +7,18 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 
+//IBM Watson Setup
+const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
+const { IamAuthenticator } = require('ibm-watson/auth');
+
+const toneAnalyzer = new ToneAnalyzerV3({
+  version: '5.4.0',
+  authenticator: new IamAuthenticator({
+    apikey: 'CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq',
+  }),
+  url: 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/311333bd-92e3-4c39-8a9e-6fd2fefc9335',
+});
+
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
@@ -91,6 +103,7 @@ function sendMessage(recipientId, message) {
   });
 }
 
+var analyzing = false;
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
@@ -108,7 +121,12 @@ function processMessage(event) {
       // Otherwise, search for new movie.
       switch (formattedMsg) {
         case "analyze":
-          sendMessage(senderId, {text: "Thanks for choosing Analyze!"});
+          analyzing = true;
+          sendMessage(senderId, {text: "Thanks for choosing Analyze! Please type in the message you would like to analyze."});
+          break;
+        case analyzing:
+          analyzing = false;
+          analyzeMessages(senderId, formattedMsg);
           break;
         default:
           sendMessage(senderId, {text: "Sorry, I don't understand your request."});
@@ -117,4 +135,20 @@ function processMessage(event) {
       sendMessage(senderId, {text: "Sorry, I don't understand your request."});
     }
   }
+}
+
+function analyzeMessages(recipientId, text) {
+  var toneParams = {
+    toneInput: { 'text': text },
+    contentType: 'application/json',
+  };
+  
+  toneAnalyzer.tone(toneParams)
+    .then(toneAnalysis => {
+      //console.log(JSON.stringify(toneAnalysis, null, 2));
+      sendMessage(recipientId, JSON.stringify(toneAnalysis, null, 2))
+    })
+    .catch(err => {
+      console.log('error:', err);
+    });
 }
