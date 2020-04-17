@@ -146,6 +146,7 @@ function analyzeMessages(senderId, text) {
       var tonesJSON = JSON.parse(tonesString);
       var tones = tonesJSON["result"]["document_tone"]["tones"];
       var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
+      var emotionsSpacing = ["", "    ", "   ", "", "  "];
       var tonesMap = new Map();
       var text = '';
 
@@ -155,9 +156,9 @@ function analyzeMessages(senderId, text) {
 
       for (emotion in emotions) {
         if (tonesMap.has(emotions[emotion])) {
-          text = text + emotions[emotion] + ": " + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + ' %\n';
+          text = text + emotions[emotion] + emotionsSpacing[emotion] + ": " + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + '%\n';
         } else {
-          text = text + emotions[emotion] + ": 0 %" + '\n';
+          text = text + emotions[emotion] + emotionsSpacing[emotion] + ": 0%" + '\n';
         }
       }
 
