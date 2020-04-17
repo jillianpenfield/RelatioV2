@@ -104,6 +104,8 @@ function sendMessage(recipientId, message) {
 }
 
 var analyzing = false;
+var helping=false;
+var messages =[]; //we can store the messages we are analyzing here for some extra keyword searching
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
@@ -117,20 +119,33 @@ function processMessage(event) {
       var formattedMsg = message.text.toLowerCase().trim();
 
       // If we receive a text message, check to see if it matches any special
-      // keywords and send back the corresponding movie detail.
-      // Otherwise, search for new movie.
+      // keywords 
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } else if (analyzing) {
         analyzing = false;
+        messages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
-      } else {
-        sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
-    } else if (message.attachments) {
+      else if(helping){
+          //TODO: deal with zipcode logic too
+          helping=false;
+          help=customizeHelp();
+          console.log(help);
+          sendMessage(senderId, {text: help});
+      }
+        else if(formattedMsg==="help"){
+            helping=true;
+            sendMessage(senderId, {text: "Please enter your zipcode for more local resources."});
+        }
+      } 
+     else if (message.attachments) {
       sendMessage(senderId, {text: "Sorry, I don't understand your request."});
     }
+    else {
+        sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+      }
   }
 }
 
@@ -172,4 +187,21 @@ function analyzeMessages(senderId, text) {
     .catch(err => {
       console.log('error:', err);
     });
+}
+//proof of concept for customizing our help function. we could also add location specific stuff at a later time if this works 
+function customizeHelp(){
+    if(messages.length>0){
+        for( message in messages){
+            if(message.contains("kill you")){
+                return " National Domestic Hotline: 1-800-799-SAFE (7233)"
+            }
+            else if(message.contains("kill yourself")){
+                return "National Suicide Prevention Hotline: 1-800-273-8255"
+            }
+            else if(message.contains("fat") || message.contains("cow") || messages.contains("ugly")){
+                return "National Eating Disorders Association Helpline: (800) 931-2237"
+            }
+        }
+    }
+    return "generic set of hotline numbers "
 }
