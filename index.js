@@ -150,16 +150,17 @@ function analyzeMessages(senderId, text) {
       var text = ''
 
       for (tone in tones) {
+        text = text + tones[tone]["tone_name"] + ": " + tones[tone]["score"];
         tonesMap.set(tones[tone]["tone_name"], tones[tone]["score"]);
       }
 
-      for (emotion in emotions) {
-        if (tonesMap.has(emotions[emotion])) {
-          text = text + emotions[emotion] + ": " + tonesMap.get(emotions[emotion]) + '\n';
-        } else {
-          text = text + emotions[emotion] + ": Not recognized" + '\n';
-        }
-      }
+      // for (emotion in emotions) {
+      //   if (tonesMap.has(emotions[emotion])) {
+      //     text = text + emotions[emotion] + ": " + tonesMap.get(emotions[emotion]) + '\n';
+      //   } else {
+      //     text = text + emotions[emotion] + ": Not recognized" + '\n';
+      //   }
+      // }
 
       console.log("Message Analysis Output: " + JSON.stringify(tones, null, 2));
       // console.log("STRING: " + toneString);
