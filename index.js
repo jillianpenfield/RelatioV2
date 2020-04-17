@@ -146,7 +146,7 @@ function analyzeMessages(senderId, text) {
       var tonesJSON = JSON.parse(tonesString);
       var tones = tonesJSON["result"]["document_tone"]["tones"];
       var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
-      var emotionsSpacing = ["  ", "          ", "         ", "   ", "      "];
+      var emotionsSpacing = ["   ", "           ", "         ", "    ", "      "];
       var tonesMap = new Map();
       var text = '';
 
