@@ -12,7 +12,7 @@ const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 const toneAnalyzer = new ToneAnalyzerV3({
-  version: '5.4.0',
+  version: '2017-09-21',
   authenticator: new IamAuthenticator({
     apikey: 'CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq',
   }),
