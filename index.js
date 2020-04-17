@@ -134,7 +134,7 @@ function processMessage(event) {
   }
 }
 
-function analyzeMessages(recipientId, text) {
+function analyzeMessages(senderId, text) {
   var toneParams = {
     toneInput: { 'text': text },
     contentType: 'application/json',
@@ -142,8 +142,8 @@ function analyzeMessages(recipientId, text) {
   
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
-      //console.log(JSON.stringify(toneAnalysis, null, 2));
-      sendMessage(recipientId, JSON.stringify(toneAnalysis, null, 2))
+      console.log("Message Analysis Output: " + JSON.stringify(toneAnalysis, null, 2));
+      sendMessage(senderId, JSON.stringify(toneAnalysis, null, 2));
     })
     .catch(err => {
       console.log('error:', err);
