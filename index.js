@@ -149,9 +149,9 @@ function analyzeMessages(senderId, text) {
       var tonesMap = new Map();
       var text = ''
 
-      for (var tone in tones) {
-        text = text + tones[tone];
-        tonesMap.set(tones[tone]["tone_name"], tones[tone]["score"]);
+      for (tone in tones) {
+        text = text + tones[tone].tone_name + ": " + tones[tone].score;
+        tonesMap.set(tones[tone].tone_name, tones[tone].score);
       }
 
       // for (emotion in emotions) {
