@@ -150,7 +150,7 @@ function analyzeMessages(senderId, text) {
       var text = ''
 
       for (tone in tones) {
-        text = text + tones[tone]["tone_name"] + ": " + tones[tone]["score"];
+        text = text + tones[tone];
         tonesMap.set(tones[tone]["tone_name"], tones[tone]["score"]);
       }
 
