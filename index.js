@@ -161,6 +161,8 @@ function analyzeMessages(senderId, text) {
         }
       }
 
+      text = text + '\n' + '\n' + "For more information on what these percentages mean, type 'More Info'.";
+
       console.log("Message Analysis Output: " + JSON.stringify(tones, null, 2));
       // console.log("STRING: " + toneString);
       // console.log("JSON: " + JSON.stringify(toneJSON));
