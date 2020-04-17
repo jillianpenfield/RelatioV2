@@ -150,14 +150,14 @@ function analyzeMessages(senderId, text) {
       var text = ''
 
       for (tone in tones) {
-        tonesMap.set(tone["tone_name"], tone["score"]);
+        tonesMap.set(tones[tone]["tone_name"], tones[tone]["score"]);
       }
 
       for (emotion in emotions) {
-        if (tonesMap.has(emotion)) {
-          text = text + emotion + ": " + tonesMap.get(emotion) + '\n';
+        if (tonesMap.has(emotions[emotion])) {
+          text = text + emotions[emotion] + ": " + tonesMap.get(emotions[emotion]) + '\n';
         } else {
-          text = text + emotion + ": Not recognized";
+          text = text + emotions[emotion] + ": Not recognized" + '\n';
         }
       }
 
