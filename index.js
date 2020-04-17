@@ -142,15 +142,30 @@ function analyzeMessages(senderId, text) {
   
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
-      var toneString = JSON.stringify(toneAnalysis);
-      var toneJSON = JSON.parse(toneString);
-      var tone = toneJSON["result"]["document_tone"];
+      var tonesString = JSON.stringify(toneAnalysis);
+      var tonesJSON = JSON.parse(tonesString);
+      var tones = tonesJSON["result"]["document_tone"];
+      var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
+      var tonesMap = new Map();
+      var text = ''
 
-      console.log("Message Analysis Output: " + JSON.stringify(tone, null, 2));
+      for (tone in tones) {
+        tonesMap.set(tone["tone_name"], tone["score"]);
+      }
+
+      for (emotion in emotions) {
+        if (tonesMap.has(emotion)) {
+          text = text + emotion + ": " + tonesMap.get(emotion) + '\n';
+        } else {
+          text = text + emotion + ": Not recognized";
+        }
+      }
+
+      console.log("Message Analysis Output: " + JSON.stringify(tones, null, 2));
       // console.log("STRING: " + toneString);
       // console.log("JSON: " + JSON.stringify(toneJSON));
       // console.log("JUST TONES FROM JSON: " + JSON.stringify(tone));
-      sendMessage(senderId, {text: JSON.stringify(tone, null, 2) });
+      sendMessage(senderId, {text: text});
     })
     .catch(err => {
       console.log('error:', err);
