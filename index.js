@@ -147,11 +147,11 @@ function analyzeMessages(senderId, text) {
       var tones = tonesJSON["result"]["document_tone"];
       var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
       var tonesMap = new Map();
-      var text = ''
+      var text = '';
 
       for (tone in tones) {
-        text = text + tones[tone].tone_name + ": " + tones[tone].score;
-        tonesMap.set(tones[tone].tone_name, tones[tone].score);
+        text = text + JSON.stringify(tones[tone]["tone_name"]) + ": " + JSON.stringify(tones[tone]["score"]);
+        tonesMap.set(JSON.stringify(tones[tone]["tone_name"]), JSON.stringify(tones[tone]["score"]));
       }
 
       // for (emotion in emotions) {
