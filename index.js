@@ -121,7 +121,7 @@ function processMessage(event) {
       // Otherwise, search for new movie.
       if (formattedMsg === "analyze") {
         analyzing = true;
-        sendMessage(senderId, {text: "Thanks for choosing Analyze! Please type in the message you would like to analyze."});
+        sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } else if (analyzing) {
         analyzing = false;
         analyzeMessages(senderId, formattedMsg);
@@ -142,8 +142,8 @@ function analyzeMessages(senderId, text) {
   
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
-      console.log("Message Analysis Output: " + JSON.stringify(toneAnalysis, null, 2));
-      sendMessage(senderId, {text: JSON.stringify(toneAnalysis, null, 2) });
+      console.log("Message Analysis Output: " + JSON.stringify(toneAnalysis["result"]["tones"], null, 2));
+      sendMessage(senderId, {text: JSON.stringify(toneAnalysis["result"]["tones"], null, 2) });
     })
     .catch(err => {
       console.log('error:', err);
