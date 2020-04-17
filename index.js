@@ -150,8 +150,8 @@ function analyzeMessages(senderId, text) {
       var text = '';
 
       for (tone in tones) {
-        text = text + JSON.stringify(tones[tone]["tone_name"]) + ": " + JSON.stringify(tones[tone]["score"]);
-        tonesMap.set(JSON.stringify(tones[tone]["tone_name"]), JSON.stringify(tones[tone]["score"]));
+        text = text + String(tones[tone]["tone_name"]) + ": " + String(tones[tone]["score"]) + '\n';
+        tonesMap.set(String(tones[tone]["tone_name"]), String(tones[tone]["score"]));
       }
 
       // for (emotion in emotions) {
