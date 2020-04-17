@@ -142,8 +142,12 @@ function analyzeMessages(senderId, text) {
   
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
-      console.log("Message Analysis Output: " + JSON.stringify(JSON.parse(toneAnalysis)["result"]["tones"], null, 2));
-      sendMessage(senderId, {text: JSON.stringify(JSON.parse(toneAnalysis)["result"]["tones"], null, 2) });
+      var toneString = JSON.stringify(toneAnalysis);
+      var toneJSON = JSON.parse(toneString);
+      var tone = toneJSON["result"]["tones"];
+      
+      console.log("Message Analysis Output: " + JSON.stringify(tone, null, 2));
+      sendMessage(senderId, {text: JSON.stringify(tone, null, 2) });
     })
     .catch(err => {
       console.log('error:', err);
