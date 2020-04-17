@@ -119,17 +119,14 @@ function processMessage(event) {
       // If we receive a text message, check to see if it matches any special
       // keywords and send back the corresponding movie detail.
       // Otherwise, search for new movie.
-      switch (formattedMsg) {
-        case "analyze":
-          analyzing = true;
-          sendMessage(senderId, {text: "Thanks for choosing Analyze! Please type in the message you would like to analyze."});
-          break;
-        case analyzing:
-          analyzing = false;
-          analyzeMessages(senderId, formattedMsg);
-          break;
-        default:
-          sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+      if (formattedMsg === "analyze") {
+        analyzing = true;
+        sendMessage(senderId, {text: "Thanks for choosing Analyze! Please type in the message you would like to analyze."});
+      } else if (analyzing) {
+        analyzing = false;
+        analyzeMessages(senderId, formattedMsg);
+      } else {
+        sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
     } else if (message.attachments) {
       sendMessage(senderId, {text: "Sorry, I don't understand your request."});
