@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
-var messages=[];
+var localMessages=[];
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -132,7 +132,7 @@ function processMessage(event) {
       }
       else if (analyzing) {
         analyzing = false;
-        messages.push(formattedMsg);
+        localMessages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
       } 
       else if(helping){
@@ -206,7 +206,7 @@ function analyzeMessages(senderId, text) {
 // this is a highly specific keyword search to better determine the help user may need. 
 //It is in no way a replacement for professional help and just a start for distressed users.
 function customizeHelp(){
-  for(message in messages){
+  for(message in localMessages){
     if(message.includes("kill you")){
       return "National Domestic Abuse Line";
     }
