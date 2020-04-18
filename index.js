@@ -1,6 +1,7 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+var zipCodeRegex= RegExp([0-9][0-9][0-9][0-9][0-9]);
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -124,12 +125,29 @@ function processMessage(event) {
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } 
       else if(formattedMsg==="help"){
-        sendMessage(senderId, {text: "Help is here for you."});
+        helping=true;
+        sendMessage(senderId, {text: "Help is here for you! Enter your zipcode for local help, or type hotlines."});
       }
       else if (analyzing) {
         analyzing = false;
         analyzeMessages(senderId, formattedMsg);
       } 
+      else if(helping){
+        helping=false;
+        if(formattedMsg==="hotlines"){
+          //todo customize hotlines based on message content
+          sendMessage(senderId, {text: "Here is a national hotline for domestic abuse."})
+
+        }
+        else if(zipCodeRegex.test('[0-9][0-9][0-9][0-9][0-9]')){
+          //TODO: CUSTOMIZE BASED ON ZIPCODE and map
+          sendMessage(senderId, {text: "thanks for entering your zipcode, here is a local resource for you. "})
+
+        }
+        else{
+          sendMessage(senderId, {text: "Sorry, I didn't udnerstand your request for help. Here is a number you may find useful."})
+        }
+      }
       else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
