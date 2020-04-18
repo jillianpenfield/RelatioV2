@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
-var localMessages=[];
+var localMessages=Array('');
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -219,7 +219,7 @@ function customizeHelp(senderId){
     }
     else{
       console.log("default happened for some reason");
-      return "National Domestic Abuse Line" //this is the default because its a relationship help app
+      sendMessage(senderId, {text:"National Domestic Abuse Line"}); //this is the default because its a relationship help app
     }
   }
 
