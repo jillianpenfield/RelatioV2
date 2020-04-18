@@ -130,10 +130,11 @@ function processMessage(event) {
       }
       else if(helping){
           //TODO: deal with zipcode logic too
-          helping=false;
+    
           help=customizeHelp();
           console.log(help);
           sendMessage(senderId, {text: help});
+          helping=false;
       }
         else if(formattedMsg==="help"){
             helping=true;
