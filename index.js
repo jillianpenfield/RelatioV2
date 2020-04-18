@@ -133,6 +133,7 @@ function processMessage(event) {
       else if (analyzing) {
         analyzing = false;
         localMessages.push(formattedMsg);
+        console.log(localMessages);
         analyzeMessages(senderId, formattedMsg);
       } 
       else if(helping){
