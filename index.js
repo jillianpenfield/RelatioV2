@@ -6,6 +6,9 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
+//local variables
+var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
+var localMessages=Array('');
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -104,6 +107,7 @@ function sendMessage(recipientId, message) {
 }
 
 var analyzing = false;
+var helping = false;
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
@@ -116,16 +120,40 @@ function processMessage(event) {
     if (message.text) {
       var formattedMsg = message.text.toLowerCase().trim();
 
-      // If we receive a text message, check to see if it matches any special
-      // keywords and send back the corresponding movie detail.
-      // Otherwise, search for new movie.
+      // Check for special keywords
+      
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
-      } else if (analyzing) {
+      } 
+      else if(formattedMsg === "help"){
+        helping=true;
+        sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+      }
+      else if (analyzing) {
         analyzing = false;
+        localMessages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
-      } else {
+      } 
+      else if(helping){
+        if(formattedMsg==="national"){
+          customizeHelp(senderId);
+      
+        }
+        else if(zipcodeRegEx.test(formattedMsg)){ //they entered a correct zipcode
+          //todo logic for determing closest resources!
+          helping=false;
+          sendMessage(senderId, {text: " Here is a local hotline. "});
+  
+        }
+        else{
+          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try a 5 digit zipcode or national."});
+          helping=true;
+
+        }
+      }
+      
+      else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
     } else if (message.attachments) {
@@ -146,7 +174,6 @@ function analyzeMessages(senderId, text) {
       var tonesJSON = JSON.parse(tonesString);
       var tones = tonesJSON["result"]["document_tone"]["tones"];
       var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
-      var emotionsSpacing = ["   ", "           ", "         ", "    ", "      "];
       var tonesMap = new Map();
       var text = '';
 
@@ -156,9 +183,9 @@ function analyzeMessages(senderId, text) {
 
       for (emotion in emotions) {
         if (tonesMap.has(emotions[emotion])) {
-          text = text + emotions[emotion] + ":" + emotionsSpacing[emotion] + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + '%\n';
+          text = text + emotions[emotion] + ": " + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + ' %\n';
         } else {
-          text = text + emotions[emotion] + ":" + emotionsSpacing[emotion] + "0%" + '\n';
+          text = text + emotions[emotion] + ": 0 %" + '\n';
         }
       }
 
@@ -173,4 +200,27 @@ function analyzeMessages(senderId, text) {
     .catch(err => {
       console.log('error:', err);
     });
+}
+//trigger warning
+// this is a highly specific keyword search to better determine the help user may need. 
+//It is in no way a replacement for professional help and just a start for distressed users.
+function customizeHelp(senderId){
+  for(message in localMessages){
+    console.log(message);
+    if(message.includes("kill you")){
+      sendMessage(senderId, {text:"National Domestic Abuse Line"});
+    }
+    else if(message.includes("kill yourself") || message.includes("kill myself")){
+      sendMessage(senderId, {text:"National Suicide Prevention Hotline"});
+
+    }
+    else if(message.includes("fat") || message.includes("pig")){
+      sendMessage(senderId, {text:"National Eating Disorder Line"});
+    }
+    else{
+      console.log("default happened for some reason");
+      sendMessage(senderId, {text:"National Domestic Abuse Line"}); //this is the default because its a relationship help app
+    }
+  }
+
 }
