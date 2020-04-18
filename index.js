@@ -104,8 +104,6 @@ function sendMessage(recipientId, message) {
 }
 
 var analyzing = false;
-var helping=false;
-var messages =[]; //we can store the messages we are analyzing here for some extra keyword searching
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
@@ -119,34 +117,20 @@ function processMessage(event) {
       var formattedMsg = message.text.toLowerCase().trim();
 
       // If we receive a text message, check to see if it matches any special
-      // keywords 
+      // keywords and send back the corresponding movie detail.
+      // Otherwise, search for new movie.
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } else if (analyzing) {
         analyzing = false;
-        messages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
-      }
-      // else if(helping){
-      //     //TODO: deal with zipcode logic too
-  
-      // }
-        else if(formattedMsg==="help"){
-           // helping=true;
-           // sendMessage(senderId, {text: "Please enter your zipcode for more local resources."});
-           help=customizeHelp();
-           console.log(help);
-          sendMessage(senderId, {text: help});
-         // helping=false;
-        }
-      } 
-     else if (message.attachments) {
-      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
-    }
-    else {
+      } else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
+    } else if (message.attachments) {
+      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+    }
   }
 }
 
@@ -162,7 +146,6 @@ function analyzeMessages(senderId, text) {
       var tonesJSON = JSON.parse(tonesString);
       var tones = tonesJSON["result"]["document_tone"]["tones"];
       var emotions = ["Sadness", "Joy", "Fear", "Disgust", "Anger"];
-      var emotionsSpacing = ["   ", "           ", "         ", "    ", "      "];
       var tonesMap = new Map();
       var text = '';
 
@@ -172,9 +155,9 @@ function analyzeMessages(senderId, text) {
 
       for (emotion in emotions) {
         if (tonesMap.has(emotions[emotion])) {
-          text = text + emotions[emotion] + ":" + emotionsSpacing[emotion] + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + '%\n';
+          text = text + emotions[emotion] + ": " + Math.round(tonesMap.get(emotions[emotion])/1 * 100) + ' %\n';
         } else {
-          text = text + emotions[emotion] + ":" + emotionsSpacing[emotion] + "0%" + '\n';
+          text = text + emotions[emotion] + ": 0 %" + '\n';
         }
       }
 
@@ -189,21 +172,4 @@ function analyzeMessages(senderId, text) {
     .catch(err => {
       console.log('error:', err);
     });
-}
-//proof of concept for customizing our help function. we could also add location specific stuff at a later time if this works 
-function customizeHelp(){
-    if(messages.length>0){
-        for( message in messages){
-            if(message.contains("kill you")){
-                return " National Domestic Hotline: 1-800-799-SAFE (7233)"
-            }
-            else if(message.contains("kill yourself")){
-                return "National Suicide Prevention Hotline: 1-800-273-8255"
-            }
-            else if(message.contains("fat") || message.contains("cow") || messages.contains("ugly")){
-                return "National Eating Disorders Association Helpline: (800) 931-2237"
-            }
-        }
-    }
-    return " National Domestic Hotline: 1-800-799-SAFE (7233)"
 }
