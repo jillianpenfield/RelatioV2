@@ -218,6 +218,7 @@ function customizeHelp(senderId){
       sendMessage(senderId, {text:"National Eating Disorder Line"});
     }
     else{
+      console.log("default happened for some reason");
       return "National Domestic Abuse Line" //this is the default because its a relationship help app
     }
   }
