@@ -204,5 +204,5 @@ function customizeHelp(){
             }
         }
     }
-    return "generic set of hotline numbers "
+    return " National Domestic Hotline: 1-800-799-SAFE (7233)"
 }
