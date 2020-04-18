@@ -6,6 +6,8 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
+//local variables
+var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -104,6 +106,7 @@ function sendMessage(recipientId, message) {
 }
 
 var analyzing = false;
+var helping = false;
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
@@ -122,10 +125,37 @@ function processMessage(event) {
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
-      } else if (analyzing) {
+      } 
+      else if(formattedMsg === "help"){
+        helping=true;
+        sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+      }
+      else if (analyzing) {
         analyzing = false;
         analyzeMessages(senderId, formattedMsg);
-      } else {
+      } 
+      else if(helping){
+        helping=false;
+        if(formattedMsg==="national"){
+          //todo logic for figuring out which hotline
+          //send a hotline message
+          sendMessage(senderId, {text: " Here is a the Domestic Abuse Hotline"});
+        }
+        else if(zipcodeRegEx.test(formattedMsg)){
+          //they entered a zipcode!
+          //todo logic for determing closest resources!
+          //send a message with closest resources
+          sendMessage(senderId, {text: " Here is a local hotline. "});
+  
+        }
+        else{
+          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try a zipcode or national."});
+          helping=true;
+
+        }
+      }
+      
+      else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
     } else if (message.attachments) {
