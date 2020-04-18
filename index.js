@@ -137,9 +137,8 @@ function processMessage(event) {
       } 
       else if(helping){
         if(formattedMsg==="national"){
-          help=customizeHelp(); //determine which hotline will be best based on existing messages 
-          helping=false;
-          sendMessage(senderId, {text: help});
+          customizeHelp(senderId);
+      
         }
         else if(zipcodeRegEx.test(formattedMsg)){ //they entered a correct zipcode
           //todo logic for determing closest resources!
@@ -205,17 +204,18 @@ function analyzeMessages(senderId, text) {
 //trigger warning
 // this is a highly specific keyword search to better determine the help user may need. 
 //It is in no way a replacement for professional help and just a start for distressed users.
-function customizeHelp(){
+function customizeHelp(senderId){
   for(message in localMessages){
+    console.log(message);
     if(message.includes("kill you")){
-      return "National Domestic Abuse Line";
+      sendMessage(senderId, {text:"National Domestic Abuse Line"});
     }
     else if(message.includes("kill yourself") || message.includes("kill myself")){
-      return "National Suicide Prevention Line";
+      sendMessage(senderId, {text:"National Suicide Prevention Hotline"});
 
     }
     else if(message.includes("fat") || message.includes("pig")){
-      return "National Eating Disorder Line";
+      sendMessage(senderId, {text:"National Eating Disorder Line"});
     }
     else{
       return "National Domestic Abuse Line" //this is the default because its a relationship help app
