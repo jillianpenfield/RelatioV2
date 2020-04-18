@@ -132,13 +132,13 @@ function processMessage(event) {
         analyzing = false;
         analyzeMessages(senderId, formattedMsg);
       } 
-      else if(helping){
-        helping=false;
-        if(formattedMsg==="hotlines"){
-          //todo customize hotlines based on message content
-          sendMessage(senderId, {text: "Here is a national hotline for domestic abuse."})
+      // else if(helping){
+      //   helping=false;
+      //   if(formattedMsg==="hotlines"){
+      //     //todo customize hotlines based on message content
+      //     sendMessage(senderId, {text: "Here is a national hotline for domestic abuse."})
 
-        }
+      //   }
         else if(zipCodeRegex.test('[0-9][0-9][0-9][0-9][0-9]')){
           //TODO: CUSTOMIZE BASED ON ZIPCODE and map
           sendMessage(senderId, {text: "thanks for entering your zipcode, here is a local resource for you. "})
