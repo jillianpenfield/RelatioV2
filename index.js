@@ -128,17 +128,17 @@ function processMessage(event) {
         messages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
       }
-      else if(helping){
-          //TODO: deal with zipcode logic too
-    
-          help=customizeHelp();
-          console.log(help);
-          sendMessage(senderId, {text: help});
-          helping=false;
-      }
+      // else if(helping){
+      //     //TODO: deal with zipcode logic too
+  
+      // }
         else if(formattedMsg==="help"){
-            helping=true;
-            sendMessage(senderId, {text: "Please enter your zipcode for more local resources."});
+           // helping=true;
+           // sendMessage(senderId, {text: "Please enter your zipcode for more local resources."});
+           help=customizeHelp();
+           console.log(help);
+          sendMessage(senderId, {text: help});
+         // helping=false;
         }
       } 
      else if (message.attachments) {
