@@ -136,13 +136,14 @@ function processMessage(event) {
         analyzeMessages(senderId, formattedMsg);
       } 
       else if(helping){
-        helping=false;
         if(formattedMsg==="national"){
           help=customizeHelp(); //determine which hotline will be best based on existing messages 
+          helping=false;
           sendMessage(senderId, {text: help});
         }
         else if(zipcodeRegEx.test(formattedMsg)){ //they entered a correct zipcode
           //todo logic for determing closest resources!
+          helping=false;
           sendMessage(senderId, {text: " Here is a local hotline. "});
   
         }
@@ -206,14 +207,14 @@ function analyzeMessages(senderId, text) {
 //It is in no way a replacement for professional help and just a start for distressed users.
 function customizeHelp(){
   for(message in messages){
-    if(message.contains("kill you")){
+    if(message.includes("kill you")){
       return "National Domestic Abuse Line";
     }
-    else if(message.contains("kill yourself") || message.contains("kill myself")){
+    else if(message.includes("kill yourself") || message.includes("kill myself")){
       return "National Suicide Prevention Line";
 
     }
-    else if(message.contains("fat") || message.contains("pig")){
+    else if(message.includes("fat") || message.includes("pig")){
       return "National Eating Disorder Line";
     }
     else{
