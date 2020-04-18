@@ -6,9 +6,10 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
+
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
-var localMessages=Array('');
+var localMessages=[];
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -105,6 +106,40 @@ function sendMessage(recipientId, message) {
     }
   });
 }
+function sendHelpTemplate(recipientId){
+  request({
+    url: "https://graph.facebook.com/v6.0/me/messages", 
+    qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
+    method: "POST",
+    json: {
+      recipient: {id: recipientId},
+      message: {
+        attachment:{
+          type: "template",
+          payload:{
+            template_type: "button",
+            text: "Help is here for you!!!",
+            buttons: [
+              {
+                type:"web_url",
+                url: "https://www.thehotline.org/help/",
+                title: "National Abuse Line"
+              },
+              {
+                type:"web_url",
+                url: "https://suicidepreventionlifeline.org",
+                title: "Suicide Prevention Lifelife"
+              }
+            ]
+          }
+        }
+      }
+    }
+  });
+
+}
+
+
 
 var analyzing = false;
 var helping = false;
@@ -121,14 +156,14 @@ function processMessage(event) {
       var formattedMsg = message.text.toLowerCase().trim();
 
       // Check for special keywords
-      
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } 
       else if(formattedMsg === "help"){
         helping=true;
-        sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+       // sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+       sendHelpTemplate(senderId);
       }
       else if (analyzing) {
         analyzing = false;
@@ -207,14 +242,14 @@ function analyzeMessages(senderId, text) {
 function customizeHelp(senderId){
   for(message in localMessages){
     console.log(message);
-    if(message.includes("kill you")){
+    if(localMessages[message].includes("kill you")){
       sendMessage(senderId, {text:"National Domestic Abuse Line"});
     }
-    else if(message.includes("kill yourself") || message.includes("kill myself")){
+    else if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
       sendMessage(senderId, {text:"National Suicide Prevention Hotline"});
 
     }
-    else if(message.includes("fat") || message.includes("pig")){
+    else if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
       sendMessage(senderId, {text:"National Eating Disorder Line"});
     }
     else{
