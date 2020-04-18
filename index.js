@@ -122,10 +122,15 @@ function processMessage(event) {
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
-      } else if (analyzing) {
+      } 
+      else if(formattedMsg==="help"){
+        sendMessage(senderId, {text: "Help is here for you."});
+      }
+      else if (analyzing) {
         analyzing = false;
         analyzeMessages(senderId, formattedMsg);
-      } else {
+      } 
+      else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
     } else if (message.attachments) {
