@@ -139,23 +139,24 @@ function processMessage(event) {
       //     sendMessage(senderId, {text: "Here is a national hotline for domestic abuse."})
 
       //   }
-        else if(zipCodeRegex.test('[0-9][0-9][0-9][0-9][0-9]')){
-          //TODO: CUSTOMIZE BASED ON ZIPCODE and map
-          sendMessage(senderId, {text: "thanks for entering your zipcode, here is a local resource for you. "})
+        // else if(zipCodeRegex.test('[0-9][0-9][0-9][0-9][0-9]')){
+        //   //TODO: CUSTOMIZE BASED ON ZIPCODE and map
+        //   sendMessage(senderId, {text: "thanks for entering your zipcode, here is a local resource for you. "})
 
-        }
-        else{
-          sendMessage(senderId, {text: "Sorry, I didn't udnerstand your request for help. Here is a number you may find useful."})
+        // }
+        // else{
+        //   sendMessage(senderId, {text: "Sorry, I didn't udnerstand your request for help. Here is a number you may find useful."})
+        // }
+        else {
+          sendMessage(senderId, {text: "Sorry, I don't understand your request."});
         }
       }
-      else {
-        sendMessage(senderId, {text: "Sorry, I don't understand your request."});
-      }
+      
     } else if (message.attachments) {
       sendMessage(senderId, {text: "Sorry, I don't understand your request."});
     }
   }
-}
+
 
 function analyzeMessages(senderId, text) {
   var toneParams = {
