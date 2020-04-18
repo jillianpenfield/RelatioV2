@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
+var messages=[];
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -119,9 +120,8 @@ function processMessage(event) {
     if (message.text) {
       var formattedMsg = message.text.toLowerCase().trim();
 
-      // If we receive a text message, check to see if it matches any special
-      // keywords and send back the corresponding movie detail.
-      // Otherwise, search for new movie.
+      // Check for special keywords
+      
       if (formattedMsg === "analyze") {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
@@ -132,24 +132,22 @@ function processMessage(event) {
       }
       else if (analyzing) {
         analyzing = false;
+        messages.push(formattedMsg);
         analyzeMessages(senderId, formattedMsg);
       } 
       else if(helping){
         helping=false;
         if(formattedMsg==="national"){
-          //todo logic for figuring out which hotline
-          //send a hotline message
-          sendMessage(senderId, {text: " Here is a the Domestic Abuse Hotline"});
+          help=customizeHelp(); //determine which hotline will be best based on existing messages 
+          sendMessage(senderId, {text: help});
         }
-        else if(zipcodeRegEx.test(formattedMsg)){
-          //they entered a zipcode!
+        else if(zipcodeRegEx.test(formattedMsg)){ //they entered a correct zipcode
           //todo logic for determing closest resources!
-          //send a message with closest resources
           sendMessage(senderId, {text: " Here is a local hotline. "});
   
         }
         else{
-          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try a zipcode or national."});
+          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try a 5 digit zipcode or national."});
           helping=true;
 
         }
@@ -202,4 +200,25 @@ function analyzeMessages(senderId, text) {
     .catch(err => {
       console.log('error:', err);
     });
+}
+//trigger warning
+// this is a highly specific keyword search to better determine the help user may need. 
+//It is in no way a replacement for professional help and just a start for distressed users.
+function customizeHelp(){
+  for(message in messages){
+    if(message.contains("kill you")){
+      return "National Domestic Abuse Line";
+    }
+    else if(message.contains("kill yourself") || message.contains("kill myself")){
+      return "National Suicide Prevention Line";
+
+    }
+    else if(message.contains("fat") || message.contains("pig")){
+      return "National Eating Disorder Line";
+    }
+    else{
+      return "National Domestic Abuse Line" //this is the default because its a relationship help app
+    }
+  }
+
 }
