@@ -106,6 +106,40 @@ function sendMessage(recipientId, message) {
     }
   });
 }
+function sendHelpTemplate(recipientId){
+  request({
+    url: "https://graph.facebook.com/v6.0/me/messages", 
+    qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
+    method: "POST",
+    json: {
+      recipient: {id: recipientId},
+      message: {
+        attachment:{
+          type: "template",
+          payload:{
+            template_type: "button",
+            text: "Help is here for you!!!",
+            buttons: [
+              {
+                type:"web_url",
+                url: "https://www.thehotline.org/help/",
+                title: "National Abuse Line"
+              },
+              {
+                type:"web_url",
+                url: "https://suicidepreventionlifeline.org",
+                title: "Suicide Prevention Lifelife"
+              }
+            ]
+          }
+        }
+      }
+    }
+  });
+
+}
+
+
 
 var analyzing = false;
 var helping = false;
@@ -128,7 +162,8 @@ function processMessage(event) {
       } 
       else if(formattedMsg === "help"){
         helping=true;
-        sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+       // sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
+       sendHelpTemplate(senderId);
       }
       else if (analyzing) {
         analyzing = false;
