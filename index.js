@@ -25,13 +25,13 @@ var suicideLineJson={
 };
 var eatingLineJson={
   type:"web_url",
-  url: "https://suicidepreventionlifeline.org",
-  title: "Suicide Lifelife"
+  url: "https://www.nationaleatingdisorders.org",
+  title: "Eating Disorder Line"
 };
 var cyberCrimeJson={
   type:"web_url",
-  url: "https://suicidepreventionlifeline.org",
-  title: "Suicide Lifelife"
+  url: "https://www.cybercivilrights.org",
+  title: "Cyber Civil Rights"
 };
   
 
@@ -151,15 +151,7 @@ function sendHelpTemplate(recipientId, customizedResources){
   });
 
 }
-var custombuttons =[{
-  type:"web_url",
-  url: "https://suicidepreventionlifeline.org",
-  title: "Suicide Lifelife"
-} ,{
-  type:"web_url",
-  url: "https://www.thehotline.org/help/",
-  title: "National Abuse Line"
-} ];
+
 
 function sendLocalHelp(recipientId){
   request({
@@ -305,6 +297,8 @@ function customizeHelp(){
       
     }
     if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
+      console.log("suicide line activated");
+      console.log("message is" +localMessages[message]);
       if(!customHelp.includes(suicideLineJson)){
         customHelp.push(suicideLineJson);
       }
