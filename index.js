@@ -138,6 +138,40 @@ function sendHelpTemplate(recipientId){
   });
 
 }
+//we need to figure out where this would go. it will show all the options
+function sendOptions(recipientId){
+  request({
+    url: "https://graph.facebook.com/v6.0/me/messages", 
+    qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
+    method: "POST",
+    json: {
+      recipient: {id: recipientId},
+      message: {
+        attachment:{
+          type: "template",
+          payload:{
+            template_type: "generic",
+            text: "Relatio Options",
+            buttons: [
+              {
+                type:"postback",
+                title: "Analyze",
+                payload: "analyze"
+              },
+              {
+                type:"postback",
+                title: "Help",
+                payload: "help"
+              }
+            ]
+          }
+        }
+      }
+    }
+  });
+  
+
+}
 
 
 
@@ -163,7 +197,8 @@ function processMessage(event) {
       else if(formattedMsg === "help"){
         helping=true;
        // sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
-       sendHelpTemplate(senderId);
+     //  sendHelpTemplate(senderId);
+     sendOptions(senderId);
       }
       else if (analyzing) {
         analyzing = false;
