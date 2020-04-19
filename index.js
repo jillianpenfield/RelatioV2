@@ -140,6 +140,7 @@ function sendHelpTemplate(recipientId){
 
 }
 function getLocalHelpPlugin(recipientId){
+  console.log("the plug in happened");
   request({
     url: "https://graph.facebook.com/v6.0/me/messages",
     qs: {access_token: accessToken},
