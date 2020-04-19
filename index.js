@@ -139,38 +139,34 @@ function sendHelpTemplate(recipientId){
   });
 
 }
-function getLocalHelpPlugin(recipientId){
-  console.log("the plug in happened");
+
+function sendLocalHelp(recipientId){
   request({
-    url: "https://graph.facebook.com/v6.0/me/messages",
-    qs: {access_token: accessToken},
+    url: "https://graph.facebook.com/v6.0/me/messages", 
+    qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
     method: "POST",
-    json:{
+    json: {
       recipient: {id: recipientId},
       message: {
         attachment:{
           type: "template",
           payload:{
-            template_type:"button",
-            text: "Help is here!",
-            image: "images/hello.jpg",
+            template_type: "button",
+            text: "Local Help is on the way!",
             buttons: [
               {
                 type:"web_url",
                 url: "https://www.domesticshelters.org/",
                 title: "Domestic Shelters"
-                
-                
               },
-            ],
+            ]
+          }
         }
       }
     }
-  }
-
   });
-}
 
+}
 
 
 
