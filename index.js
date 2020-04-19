@@ -128,14 +128,14 @@ function sendHelpTemplate(recipientId){
   });
 
 }
-var custombuttons =[ {
-  type:"web_url",
-  url: "https://www.thehotline.org/help/",
-  title: "National Abuse Line"
-}, {
+var custombuttons =[{
   type:"web_url",
   url: "https://suicidepreventionlifeline.org",
   title: "Suicide Lifelife"
+} ,{
+  type:"web_url",
+  url: "https://www.thehotline.org/help/",
+  title: "National Abuse Line"
 } ];
 
 function sendLocalHelp(recipientId){
