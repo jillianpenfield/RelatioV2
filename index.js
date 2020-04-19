@@ -207,13 +207,15 @@ function processMessage(event) {
         if(formattedMsg==="national"){
           //customizeHelp(senderId);
           sendHelpTemplate(senderId);
+          helping=false;
       
         }
         else if(formattedMsg=="local"){
           getLocalHelpPlugin(senderId);
+          helping=false;
         }
   
-        }
+        
         else{
           sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try local or national."});
           helping=true;
@@ -224,8 +226,9 @@ function processMessage(event) {
       else {
         sendMessage(senderId, {text: "Sorry, I don't understand your request."});
       }
-    } else if (message.attachments) {
-      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+    }
+   else if (message.attachments) {
+    sendMessage(senderId, {text: "Sorry, I don't understand your request."});
     }
   }
 }
