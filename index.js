@@ -12,6 +12,29 @@ var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 var localMessages=[];
 var accessToken='EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD' 
 
+//Resource Variables 
+var domesticAbusejson= {
+  type:"web_url",
+  url: "https://www.thehotline.org/help/",
+  title: "National Abuse Line"
+};
+var suicideLineJson={
+  type:"web_url",
+  url: "https://suicidepreventionlifeline.org",
+  title: "Suicide Lifelife"
+};
+var eatingLineJson={
+  type:"web_url",
+  url: "https://suicidepreventionlifeline.org",
+  title: "Suicide Lifelife"
+};
+var cyberCrimeJson={
+  type:"web_url",
+  url: "https://suicidepreventionlifeline.org",
+  title: "Suicide Lifelife"
+};
+  
+
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const { IamAuthenticator } = require('ibm-watson/auth');
@@ -119,7 +142,7 @@ function sendHelpTemplate(recipientId, customizedResources){
           type: "template",
           payload:{
             template_type: "button",
-            text: "Help is here for you!",
+            text: "Based on the messages you wanted analyzed, here is a custom resource for you.",
             buttons: customizedResources,
           }
         }
@@ -267,50 +290,42 @@ function analyzeMessages(senderId, text) {
 //trigger warning
 // this is a highly specific keyword search to better determine the help user may need. 
 //It is in no way a replacement for professional help and just a start for distressed users.
+
+  var cyberCrimeJson
 function customizeHelp(){
   var customHelp=[];
+  
   for(message in localMessages){
     console.log(message);
-    if(localMessages[message].includes("kill you")){
-      customHelp.push({
-        type:"web_url",
-        url: "https://www.thehotline.org/help/",
-        title: "National Abuse Line"
-      });
+    if(localMessages[message].includes("kill you") ){
+      if(!customHelp.includes(domesticAbusejson)){
+        customHelp.push(domesticAbusejson);
+      }
+    
       
     }
     if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
-      customHelp.push({
-        type:"web_url",
-        url: "https://suicidepreventionlifeline.org",
-        title: "Suicide Lifelife"
-      } );
+      if(!customHelp.includes(suicideLineJson)){
+        customHelp.push(suicideLineJson);
+      }
       
 
     }
     if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
-      customHelp.push({
-        type: "web_url",
-        url: "https://www.nationaleatingdisorders.org/help-support/contact-helpline",
-        title: "Eating Disorder Hotline"
-      })
+      if(!customHelp.includes(eatingLineJson)){
+        customHelp.push(eatingLineJson);
+      }
       
     }
      if(localMessages[message].includes("nudes") || localMessages.includes("revenge porn")){
-      customHelp.push({
-        type: "web_url",
-        url: "https://www.cybercivilrights.org/victim-resources/",
-        title: "Cyber Rights Resources"
-
-      })
+       if(!customHelp.includes(cyberCrimeJson)){
+        customHelp.push(cyberCrimeJson);
+       }
+      
     }
     if(customHelp.length==0){
       //if none of those keywords were recognized, then give them the default domestic line
-      customHelp.push({
-        type:"web_url",
-        url: "https://www.thehotline.org/help/",
-        title: "National Abuse Line"
-      });
+      customHelp.push(domesticAbusejson);
 
     }
   }
