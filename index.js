@@ -107,7 +107,7 @@ function sendMessage(recipientId, message) {
     }
   });
 }
-function sendHelpTemplate(recipientId){
+function sendHelpTemplate(recipientId, customizedResources){
   request({
     url: "https://graph.facebook.com/v6.0/me/messages", 
     qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
@@ -120,7 +120,7 @@ function sendHelpTemplate(recipientId){
           payload:{
             template_type: "button",
             text: "Help is here for you!",
-            buttons: custombuttons,
+            buttons: customizedResources,
           }
         }
       }
@@ -198,8 +198,8 @@ function processMessage(event) {
       } 
       else if(helping){
         if(formattedMsg==="national"){
-          //customizeHelp(senderId);
-          sendHelpTemplate(senderId);
+          customizedResources=customizeHelp()
+          sendHelpTemplate(senderId), customizedResources);
           helping=false;
       
         }
@@ -267,23 +267,52 @@ function analyzeMessages(senderId, text) {
 //trigger warning
 // this is a highly specific keyword search to better determine the help user may need. 
 //It is in no way a replacement for professional help and just a start for distressed users.
-function customizeHelp(senderId){
+function customizeHelp(){
+  var customHelp=[];
   for(message in localMessages){
     console.log(message);
     if(localMessages[message].includes("kill you")){
-      sendMessage(senderId, {text:"National Domestic Abuse Line"});
+      customHelp.push({
+        type:"web_url",
+        url: "https://www.thehotline.org/help/",
+        title: "National Abuse Line"
+      });
+      
     }
-    else if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
-      sendMessage(senderId, {text:"National Suicide Prevention Hotline"});
+    if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
+      customHelp.push({
+        type:"web_url",
+        url: "https://suicidepreventionlifeline.org",
+        title: "Suicide Lifelife"
+      } );
+      
 
     }
-    else if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
-      sendMessage(senderId, {text:"National Eating Disorder Line"});
+    if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
+      customHelp.push({
+        type: "web_url",
+        url: "https://www.nationaleatingdisorders.org/help-support/contact-helpline",
+        title: "Eating Disorder Hotline"
+      })
+      
     }
-    else{
-      console.log("default happened for some reason");
-      sendMessage(senderId, {text:"National Domestic Abuse Line"}); //this is the default because its a relationship help app
+     if(localMessages[message].includes("nudes") || localMessages.includes("revenge porn")){
+      customHelp.push({
+        type: "web_url",
+        url: "https://www.cybercivilrights.org/victim-resources/",
+        title: "Cyber Rights Resources"
+
+      })
+    }
+    if(customHelp.length==0){
+      //if none of those keywords were recognized, then give them the default domestic line
+      customHelp.push({
+        type:"web_url",
+        url: "https://www.thehotline.org/help/",
+        title: "National Abuse Line"
+      });
+
     }
   }
-
+  return customHelp;
 }
