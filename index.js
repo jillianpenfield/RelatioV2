@@ -197,8 +197,7 @@ function processMessage(event) {
       else if(formattedMsg === "help"){
         helping=true;
        // sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
-     //  sendHelpTemplate(senderId);
-     sendOptions(senderId);
+      sendHelpTemplate(senderId);
       }
       else if (analyzing) {
         analyzing = false;
