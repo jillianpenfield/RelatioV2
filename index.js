@@ -154,22 +154,21 @@ function getLocalHelpPlugin(recipientId){
             elements: [
               {
                 title: "Get info on local shelters and more!",
-                image_url: "https://ibb.co/PZxPSjr",
-                subtitle: "Sponsored by domesticshelters.org",
-                default_action:{
-                  type: "web_url",
-                  url: "https://www.domesticshelters.org",
-                  webview_height_ratio: "tall",
-                }
-              } //could this be a button? 
-            ]
-
-          }
+                image: "/images/hello.jpg",
+                
+              },
+            ],
+            buttons:[{
+               type:"web_url",
+                url:"https://www.domesticshelters.org",
+                title:"Get Local Help Now!"
+            }],
         }
       }
     }
+  }
 
-  })
+  });
 }
 
 
