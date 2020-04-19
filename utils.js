@@ -35,3 +35,17 @@ function sendOptions(recipientId){
     
   
   }
+
+  //just in case buttons break
+  buttons: [
+    {
+      type:"web_url",
+      url: "https://www.thehotline.org/help/",
+      title: "National Abuse Line"
+    },
+    {
+      type:"web_url",
+      url: "https://suicidepreventionlifeline.org",
+      title: "Suicide Lifelife"
+    }
+  ]

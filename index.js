@@ -120,18 +120,7 @@ function sendHelpTemplate(recipientId){
           payload:{
             template_type: "button",
             text: "Help is here for you!",
-            buttons: [
-              {
-                type:"web_url",
-                url: "https://www.thehotline.org/help/",
-                title: "National Abuse Line"
-              },
-              {
-                type:"web_url",
-                url: "https://suicidepreventionlifeline.org",
-                title: "Suicide Lifelife"
-              }
-            ]
+            buttons: custombuttons,
           }
         }
       }
@@ -139,6 +128,15 @@ function sendHelpTemplate(recipientId){
   });
 
 }
+var custombuttons =[ {
+  type:"web_url",
+  url: "https://www.thehotline.org/help/",
+  title: "National Abuse Line"
+}, {
+  type:"web_url",
+  url: "https://suicidepreventionlifeline.org",
+  title: "Suicide Lifelife"
+} ];
 
 function sendLocalHelp(recipientId){
   request({
