@@ -10,6 +10,7 @@ app.listen((process.env.PORT || 5000));
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 var localMessages=[];
+var accessToken='EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD' 
 
 //IBM Watson Setup
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -118,7 +119,7 @@ function sendHelpTemplate(recipientId){
           type: "template",
           payload:{
             template_type: "button",
-            text: "Help is here for you!!!",
+            text: "Help is here for you!",
             buttons: [
               {
                 type:"web_url",
@@ -128,7 +129,7 @@ function sendHelpTemplate(recipientId){
               {
                 type:"web_url",
                 url: "https://suicidepreventionlifeline.org",
-                title: "Suicide Prevention Lifelife"
+                title: "Suicide Lifelife"
               }
             ]
           }
@@ -138,40 +139,39 @@ function sendHelpTemplate(recipientId){
   });
 
 }
-//we need to figure out where this would go. it will show all the options
-function sendOptions(recipientId){
+function getLocalHelpPlugin(recipientId){
   request({
-    url: "https://graph.facebook.com/v6.0/me/messages", 
-    qs: {access_token: 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'},
+    url: "https://graph.facebook.com/v6.0/me/messages",
+    qs: {access_token: accessToken},
     method: "POST",
-    json: {
+    json:{
       recipient: {id: recipientId},
       message: {
         attachment:{
           type: "template",
           payload:{
-            template_type: "generic",
-            text: "Relatio Options",
-            buttons: [
+            template_type:"generic",
+            elements: [
               {
-                type:"postback",
-                title: "Analyze",
-                payload: "analyze"
-              },
-              {
-                type:"postback",
-                title: "Help",
-                payload: "help"
-              }
+                title: "Get info on local shelters and more!",
+                image_url: "https://ibb.co/PZxPSjr",
+                subtitle: "Sponsored by domesticshelters.org",
+                default_action:{
+                  type: "web_url",
+                  url: "https://www.domesticshelters.org",
+                  webview_height_ratio: "tall",
+                }
+              } //could this be a button? 
             ]
+
           }
         }
       }
     }
-  });
-  
 
+  })
 }
+
 
 
 
@@ -196,8 +196,7 @@ function processMessage(event) {
       } 
       else if(formattedMsg === "help"){
         helping=true;
-       // sendMessage(senderId, {text: "Help is here for you. Enter your zipcode for local help or national for national hotlines."});
-      sendHelpTemplate(senderId);
+        sendMessage(senderId, {text: "Help is here for you. Enter local or national for help near or far."});
       }
       else if (analyzing) {
         analyzing = false;
@@ -206,17 +205,17 @@ function processMessage(event) {
       } 
       else if(helping){
         if(formattedMsg==="national"){
-          customizeHelp(senderId);
+          //customizeHelp(senderId);
+          sendHelpTemplate(senderId);
       
         }
-        else if(zipcodeRegEx.test(formattedMsg)){ //they entered a correct zipcode
-          //todo logic for determing closest resources!
-          helping=false;
-          sendMessage(senderId, {text: " Here is a local hotline. "});
+        else if(formattedMsg=="local"){
+          getLocalHelpPlugin(senderId);
+        }
   
         }
         else{
-          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try a 5 digit zipcode or national."});
+          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try local or national."});
           helping=true;
 
         }
