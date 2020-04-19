@@ -207,7 +207,7 @@ function processMessage(event) {
         }
         else if(formattedMsg==="local"){
           console.log("local was understood");
-          getLocalHelpPlugin(senderId);
+          sendLocalHelp(senderId);
           helping=false;
         }
   
