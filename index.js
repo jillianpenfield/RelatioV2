@@ -151,19 +151,18 @@ function getLocalHelpPlugin(recipientId){
         attachment:{
           type: "template",
           payload:{
-            template_type:"generic",
-            elements: [
+            template_type:"button",
+            text: "Help is here!",
+            image: "images/hello.jpg",
+            buttons: [
               {
-                title: "Get info on local shelters and more!",
-                image: "/images/hello.jpg",
+                type:"web_url",
+                url: "https://www.domesticshelters.org/",
+                title: "Domestic Shelters"
+                
                 
               },
             ],
-            buttons:[{
-               type:"web_url",
-                url:"https://www.domesticshelters.org",
-                title:"Get Local Help Now!"
-            }],
         }
       }
     }
