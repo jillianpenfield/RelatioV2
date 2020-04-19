@@ -1,4 +1,4 @@
-import {config} from './config.js'
+
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
@@ -11,8 +11,8 @@ app.listen((process.env.PORT || 5000));
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 var localMessages=[];
-var accessToken=config.MY_FB_ACCESS_TOKEN;
-var watsonKey=config.MY_WATSON_KEY;
+//var accessToken=config.MY_FB_ACCESS_TOKEN;
+//var watsonKey=config.MY_WATSON_KEY;
 
 //Resource Variables 
 var domesticAbusejson= {
@@ -44,7 +44,7 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 const toneAnalyzer = new ToneAnalyzerV3({
   version: '2017-09-21',
   authenticator: new IamAuthenticator({
-    apikey: watsonKey,
+    apikey: 'CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq',
   }),
   url: 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/311333bd-92e3-4c39-8a9e-6fd2fefc9335',
 });
