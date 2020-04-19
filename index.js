@@ -198,8 +198,8 @@ function processMessage(event) {
       } 
       else if(helping){
         if(formattedMsg==="national"){
-          customizedResources=customizeHelp()
-          sendHelpTemplate(senderId), customizedResources);
+          customizedResources=customizeHelp();
+          sendHelpTemplate(senderId, customizedResources);
           helping=false;
       
         }
