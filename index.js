@@ -209,7 +209,7 @@ function processMessage(event) {
           helping=false;
       
         }
-        else if(formattedMsg=="local"){
+        else if(formattedMsg==="local"){
           getLocalHelpPlugin(senderId);
           helping=false;
         }
