@@ -214,7 +214,7 @@ function processMessage(event) {
       }
       else if (formattedMsg === "more info") {
         if( mostRecentAnalysis.size > 0) {
-          sendMessage(senderId, {text: mostRecentAnalysis});
+          getMoreInfo(senderId);
         } else {
           sendMessage(senderId, {text: "Please analyze a conversation to get more info on. To do that, type 'analyze'."});
         }
@@ -253,6 +253,17 @@ function processMessage(event) {
     sendMessage(senderId, {text: "Sorry, I don't understand your request. Type 'help' for valid Relatio commands."});
     }
   }
+}
+
+function getMoreInfo(senderId) {
+  var sadness = Math.round(mostRecentAnalysis.get("Sadness")/1 * 100);
+  var joy = Math.round(mostRecentAnalysis.get("Joy")/1 * 100);
+  var fear = Math.round(mostRecentAnalysis.get("Fear")/1 * 100);
+  var disgust = Math.round(mostRecentAnalysis.get("Disgust")/1 * 100);
+  var anger = Math.round(mostRecentAnalysis.get("Anger")/1 * 100);
+
+  var text = sadness + " " + joy + " " + fear + " " + disgust + " " + anger;
+  sendMessage(senderId, {text: text});
 }
 
 function analyzeMessages(senderId, text) {
