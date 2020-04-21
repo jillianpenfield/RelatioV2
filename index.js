@@ -10,7 +10,8 @@ app.listen((process.env.PORT || 5000));
 
 //local variables
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
-var localMessages=[];
+var localMessages= [];
+var mostRecentAnalysis = new Map();
 //var accessToken=config.MY_FB_ACCESS_TOKEN;
 //var watsonKey=config.MY_WATSON_KEY;
 
@@ -110,7 +111,7 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = `${greeting}Welcome to Relatio - thanks for using! Your actions are 'Analyze' or 'Get Help.' `;
+      var message = `${greeting}Welcome to Relatio - thanks for using! Your actions are 'analyze' or 'get support.' `;
       sendMessage(senderId, {text: message});
     });
   }
@@ -167,7 +168,7 @@ function sendLocalHelp(recipientId){
           type: "template",
           payload:{
             template_type: "button",
-            text: "Local Help is on the way!",
+            text: "Local support is on the way!",
             buttons: [
               {
                 type:"web_url",
@@ -204,9 +205,19 @@ function processMessage(event) {
         analyzing = true;
         sendMessage(senderId, {text: "I understand you'd like to analyze your relationship. Please copy & paste a conversation you'd like analyzed."});
       } 
-      else if(formattedMsg === "help"){
+      else if(formattedMsg === "get support"){
         helping=true;
-        sendMessage(senderId, {text: "Help is here for you. Enter local or national for help near or far."});
+        sendMessage(senderId, {text: "Support is here for you. Enter 'local' or 'national' for support near or far."});
+      }
+      else if (formattedMsg === "help") {
+        sendMessage(senderId, {text: "To use Relatio, type 'analyze' to analyze a conversation or type 'get support' for local or national hotlines." });
+      }
+      else if (formattedMsg === "more info") {
+        if( mostRecentAnalysis.size > 0) {
+          sendMessage(senderId, {text: mostRecentAnalysis});
+        } else {
+          sendMessage(senderId, {text: "Please analyze a conversation to get more info on. To do that, type 'analyze'."});
+        }
       }
       else if (analyzing) {
         analyzing = false;
@@ -228,18 +239,18 @@ function processMessage(event) {
   
         
         else{
-          sendMessage(senderId, {text: " Sorry, we didn't understand your help request. Try local or national."});
+          sendMessage(senderId, {text: " Sorry, we didn't understand your support request. Try 'local' or 'national.'"});
           helping=true;
 
         }
       }
       
       else {
-        sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+        sendMessage(senderId, {text: "Sorry, I don't understand your request. Type 'help' for valid Relatio commands."});
       }
     }
    else if (message.attachments) {
-    sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+    sendMessage(senderId, {text: "Sorry, I don't understand your request. Type 'help' for valid Relatio commands."});
     }
   }
 }
@@ -263,6 +274,7 @@ function analyzeMessages(senderId, text) {
       for (tone in tones) {
         tonesMap.set(String(tones[tone]["tone_name"]), tones[tone]["score"]);
       }
+      mostRecentAnalysis = tonesMap;
 
       for (emotion in emotions) {
         if (tonesMap.has(emotions[emotion])) {
@@ -272,7 +284,7 @@ function analyzeMessages(senderId, text) {
         }
       }
 
-      text = text + '\n' + "For more information on what these percentages mean, type 'More Info'. Type 'help' to access local/national help and hotlines.";
+      text = text + '\n' + "For more information on what these percentages mean, type 'more info'. Type 'get support' to access local/national help and hotlines.";
 
       console.log("Message Analysis Output: " + JSON.stringify(tones, null, 2));
       sendMessage(senderId, {text: text});
@@ -281,11 +293,13 @@ function analyzeMessages(senderId, text) {
       console.log('error:', err);
     });
 }
+
+
 //trigger warning
 // this is a highly specific keyword search to better determine the help user may need. 
 //It is in no way a replacement for professional help and just a start for distressed users.
 
-  var cyberCrimeJson
+var cyberCrimeJson;
 function customizeHelp(){
   var customHelp=[];
   
