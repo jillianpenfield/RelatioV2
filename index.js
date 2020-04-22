@@ -263,62 +263,62 @@ function getMoreInfo(senderId) {
   var anger = Math.round(mostRecentAnalysis.get("Anger")/1 * 100) || null;
   var text = "";
 
-  if (sadness > 75) {
+  if (sadness > 74) {
     text = text + "There is a high likelihood that your conversation depicts sadness. Sadness is often defined as a transient emotional "
           + "state characterized by feelings of disappointment, grief, hopelessness, disinterest, and dampened mood. Sadness can often "
           + "lead to people engaging in negative coping mechanisms. If you find yourself experiencing a lot of sadness in your relationship, "
-          + "help is here for you!\n";
+          + "help is here for you!\n\n";
   } else if (sadness > 49) {
     text = text + "There is a medium likelihood that your conversation depicts sadness. Sadness is something all relationships experience "
-          + "from time to time. The type and severity of sadness can vary depending upon root cause and how people cope with such feelings.\n";
+          + "from time to time. The type and severity of sadness can vary depending upon root cause and how people cope with such feelings.\n\n";
   } else {
-    text = text + "There is no sadness detected in your conversation. Woo hoo!\n";
+    text = text + "There is no sadness detected in your conversation. Woo hoo!\n\n";
   }
 
-  if (joy > 75) {
+  if (joy > 74) {
     text = text + "There is a high likelihood that your conversation depicts joy. Joy tends ot be the emotion people strive for the most. Joy has been linked to a variety of outcomes such as increased "
-          + "longevity and increased marital satisfaction. Keep up the great work!\n";
+          + "longevity and increased marital satisfaction. Keep up the great work!\n\n";
   } else if (joy > 49) {
     text = text + "There is a medium likelihood that your conversation depicts joy. Research has supported the idea that joy can play a role in both physical "
-          + "and mental health. You're on the right track!\n"
+          + "and mental health. You're on the right track!\n\n"
   } else {
     text = text + "There is no joy detected in your conversation. Unhappiness has been linked to a variety of poor health outcomes such as stress, "
-          +  "anxiety, depression, and loneliness. If you find yourself never truly experiencing joy in your relationship, help is here for you!\n";
+          +  "anxiety, depression, and loneliness. If you find yourself never truly experiencing joy in your relationship, help is here for you!\n\n";
   }
 
-  if (fear > 75) {
+  if (fear > 74) {
     text = text + "There is a high likelihood that your conversation depicts fear. Fear is the emotional response to an immediate threat putting our bodies "
           + "into fight or flight mode. Expressions of this type of emotion can include attempts to hide or flea from the threat as well as rapid breathing and heartbeat. " 
-          + "If you find yourself experiencing a lot of fear in your relationship, help is here for you!\n";
+          + "If you find yourself experiencing a lot of fear in your relationship, help is here for you!\n\n";
   } else if (fear > 49) {
     text = text + "There is a medium likelihood that your conversation depicts fear. Not everyone experiences fear in the same way - some people may be more sensitive to "
-          + "fear and certain situations or objects may be more likely to trigger this emotion. Some people actually seek out fear-provoking situations.\n";
+          + "fear and certain situations or objects may be more likely to trigger this emotion. Some people actually seek out fear-provoking situations.\n\n";
   } else {
-    text = text + "There is no fear detected in your conversation. Go you!\n";
+    text = text + "There is no fear detected in your conversation. Go you!\n\n";
   }
 
-  if (disgust > 75) {
+  if (disgust > 74) {
     text = text + "There is a high likelihood that your conversation depicts disgust. Disgust can be displayed in a number of ways including "
           + "physical reactions, such as vomiting or retching, or facial expressions. This sense of revulsion can originate from a number of things, "
           + "including an unpleasant taste, sight, or smell, or even a person's morals. If you find yourself experiencing a lot of disgust in your relationship, "
-          + "help is here for you!\n";
+          + "help is here for you!\n\n";
   } else if (disgust > 49) {
     text = text + "There is a medium likelihood that your conversation depicts disgust. People can experience disgust from a number of things including an unpleasant "
-          + "taste, sight, or smell, as well as moral disgust when they observe others engaging in behaviors they fnd distateful, immoral, or evil.\n";
+          + "taste, sight, or smell, as well as moral disgust when they observe others engaging in behaviors they fnd distateful, immoral, or evil.\n\n";
   } else {
-    text = text + "There is no disgust detected in your conversation. Way to go!\n";
+    text = text + "There is no disgust detected in your conversation. Way to go!\n\n";
   }
 
-  if (anger > 75) {
+  if (anger > 74) {
     text = text + "There is a high likelihood that your conversation depicts anger. Anger can be a particularly powerful emotion characterized "
           + "by feelings of hostility, agitation, frustration, and antagonism towards others. Anger can become a problem when it is excessive or expressed "
           + "in ways that are unhealthy, dangerous, or harmful to others. Uncontrollable anger can quickly turn to aggression, abuse, or violence. "
-          + "If you find yourself experiencing anger often in your relationship, help is here for you!\n";
+          + "If you find yourself experiencing anger often in your relationship, help is here for you!\n\n";
   } else if (anger > 49) {
     text = text + "There is a medium likelihood that your conversation depicts anger. While anger is often thought of as a negative emotion, it can sometimes be a good thing. "
-          + "It can be constructive in clarifying your needs in a relationship and it can also motivate you to take action and find solutions to things that are bothering you. \n";
+          + "It can be constructive in clarifying your needs in a relationship and it can also motivate you to take action and find solutions to things that are bothering you. \n\n";
   } else {
-    text = text + "There is no anger detected in your conversation. Keep it up!\n";
+    text = text + "There is no anger detected in your conversation. Keep it up!\n\n";
   }
   
   sendMessage(senderId, {text: text});
