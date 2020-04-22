@@ -103,15 +103,7 @@ function processPostback(event) {
       },
       method: "GET"
     }, function(error, response, body) {
-      var greeting = "";
-      if (error) {
-        console.log("Error getting user's name: " +  error);
-      } else {
-        var bodyObj = JSON.parse(body);
-        name = bodyObj.first_name;
-        greeting = "Hi " + name + ". ";
-      }
-      var message = `${greeting}Welcome to Relatio - thanks for using! Your actions are 'analyze' or 'get support.' `;
+      var message = "Hi there! Welcome to Relatio - the messaging agent that can analyze your relationship! Your actions are 'analyze' or 'get support.' You can always type 'help' if you forget the valid commands. We hope you enjoy.";
       sendMessage(senderId, {text: message});
     });
   }
