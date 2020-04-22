@@ -268,7 +268,7 @@ function getMoreInfo(senderId) {
   }
 
   if (joy > 74) {
-    text = text + "There is a high likelihood that your conversation depicts joy. Joy tends ot be the emotion people strive for the most. Joy has been linked to a variety of outcomes such as increased "
+    text = text + "There is a high likelihood that your conversation depicts joy. Joy tends to be the emotion people strive for the most. Joy has been linked to a variety of outcomes such as increased "
           + "longevity and increased marital satisfaction. Keep up the great work!\n\n";
   } else if (joy > 49) {
     text = text + "There is a medium likelihood that your conversation depicts joy. Research has supported the idea that joy can play a role in both physical "
@@ -370,7 +370,7 @@ function customizeHelp(){
     if(!customHelp.includes(domesticAbusejson)){
       customHelp.push(domesticAbusejson);
     }
-    
+
     if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
       console.log("suicide line activated");
       console.log("message is" +localMessages[message]);
