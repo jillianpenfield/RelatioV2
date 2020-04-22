@@ -366,13 +366,11 @@ function customizeHelp(){
   
   for(message in localMessages){
     console.log(message);
-    if(localMessages[message].includes("kill you") ){
-      if(!customHelp.includes(domesticAbusejson)){
-        customHelp.push(domesticAbusejson);
-      }
-    
-      
+
+    if(!customHelp.includes(domesticAbusejson)){
+      customHelp.push(domesticAbusejson);
     }
+    
     if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
       console.log("suicide line activated");
       console.log("message is" +localMessages[message]);
@@ -394,11 +392,7 @@ function customizeHelp(){
        }
       
     }
-    if(customHelp.length==0){
-      //if none of those keywords were recognized, then give them the default domestic line
-      customHelp.push(domesticAbusejson);
-
-    }
+  
   }
   return customHelp;
 }
