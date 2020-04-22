@@ -256,13 +256,64 @@ function processMessage(event) {
 }
 
 function getMoreInfo(senderId) {
-  var sadness = Math.round(mostRecentAnalysis.get("Sadness")/1 * 100);
-  var joy = Math.round(mostRecentAnalysis.get("Joy")/1 * 100);
-  var fear = Math.round(mostRecentAnalysis.get("Fear")/1 * 100);
-  var disgust = Math.round(mostRecentAnalysis.get("Disgust")/1 * 100);
-  var anger = Math.round(mostRecentAnalysis.get("Anger")/1 * 100);
+  var sadness = Math.round(mostRecentAnalysis.get("Sadness")/1 * 100) || null;
+  var joy = Math.round(mostRecentAnalysis.get("Joy")/1 * 100) || null;
+  var fear = Math.round(mostRecentAnalysis.get("Fear")/1 * 100) || null;
+  var disgust = Math.round(mostRecentAnalysis.get("Disgust")/1 * 100) || null;
+  var anger = Math.round(mostRecentAnalysis.get("Anger")/1 * 100) || null;
+  var text = "";
 
-  var text = sadness + " " + joy + " " + fear + " " + disgust + " " + anger;
+  if (sadness > 60) {
+    text = text + "HIGH sadness detected. ";
+  } else if (sadness > 30) {
+    text = text + "MEDIUM sadness detected. ";
+  } else if (sadness > 0) {
+    text = text + "LOW sadness detected. ";
+  } else {
+    text = text + "No sadness detected. ";
+  }
+
+  if (joy > 60) {
+    text = text + "HIGH joy detected. ";
+  } else if (joy > 30) {
+    text = text + "MEDIUM joy detected. ";
+  } else if (joy > 0) {
+    text = text + "LOW joy detected. ";
+  } else {
+    text = text + "No joy detected. ";
+  }
+
+  if (fear > 60) {
+    text = text + "HIGH fear detected. ";
+  } else if (fear > 30) {
+    text = text + "MEDIUM fear detected. ";
+  } else if (fear > 0) {
+    text = text + "LOW fear detected. ";
+  } else {
+    text = text + "No fear detected. ";
+  }
+
+  if (disgust > 60) {
+    text = text + "HIGH disgust detected. ";
+  } else if (disgust > 30) {
+    text = text + "MEDIUM disgust detected. ";
+  } else if (disgust > 0) {
+    text = text + "LOW disgust detected. ";
+  } else {
+    text = text + "No disgust detected. ";
+  }
+
+  if (anger > 60) {
+    text = text + "HIGH anger detected. ";
+  } else if (anger > 30) {
+    text = text + "MEDIUM anger detected. ";
+  } else if (anger > 0) {
+    text = text + "LOW anger detected. ";
+  } else {
+    text = text + "No anger detected. ";
+  }
+  
+
   sendMessage(senderId, {text: text});
 }
 
