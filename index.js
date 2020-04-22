@@ -263,52 +263,46 @@ function getMoreInfo(senderId) {
   var anger = Math.round(mostRecentAnalysis.get("Anger")/1 * 100) || null;
   var text = "";
 
-  if (sadness > 60) {
-    text = text + "HIGH sadness detected. ";
-  } else if (sadness > 30) {
-    text = text + "MEDIUM sadness detected. ";
-  } else if (sadness > 0) {
-    text = text + "LOW sadness detected. ";
+  if (sadness > 75) {
+    text = text + "There is a high likelihood that your conversation depicts sadness. Sadness is often defined as a transient emotional "
+          + "state characterized by feelings of disappointment, grief, hopelessness, disinterest, and dampened mood. Sadness can often "
+          + "lead to people engaging in negative coping mechanisms. If you find yourself experiencing a lot of sadness in your relationship, "
+          + "help is here for you!\n";
+  } else if (sadness > 49) {
+    text = text + "There is a medium likelihood that your conversation depicts sadness. Sadness is something all relationships experience"
+          + "from time to time. The type and severity of sadness can vary depending upon root cause and how people cope with such feelings.\n";
   } else {
-    text = text + "No sadness detected. ";
+    text = text + "There is no sadness detected in your conversation. Woo hoo!\n";
   }
 
-  if (joy > 60) {
+  if (joy > 75) {
     text = text + "HIGH joy detected. ";
-  } else if (joy > 30) {
+  } else if (joy > 49) {
     text = text + "MEDIUM joy detected. ";
-  } else if (joy > 0) {
-    text = text + "LOW joy detected. ";
   } else {
     text = text + "No joy detected. ";
   }
 
-  if (fear > 60) {
+  if (fear > 75) {
     text = text + "HIGH fear detected. ";
-  } else if (fear > 30) {
+  } else if (fear > 49) {
     text = text + "MEDIUM fear detected. ";
-  } else if (fear > 0) {
-    text = text + "LOW fear detected. ";
   } else {
     text = text + "No fear detected. ";
   }
 
-  if (disgust > 60) {
+  if (disgust > 75) {
     text = text + "HIGH disgust detected. ";
-  } else if (disgust > 30) {
+  } else if (disgust > 49) {
     text = text + "MEDIUM disgust detected. ";
-  } else if (disgust > 0) {
-    text = text + "LOW disgust detected. ";
   } else {
     text = text + "No disgust detected. ";
   }
 
-  if (anger > 60) {
+  if (anger > 75) {
     text = text + "HIGH anger detected. ";
-  } else if (anger > 30) {
+  } else if (anger > 49) {
     text = text + "MEDIUM anger detected. ";
-  } else if (anger > 0) {
-    text = text + "LOW anger detected. ";
   } else {
     text = text + "No anger detected. ";
   }
