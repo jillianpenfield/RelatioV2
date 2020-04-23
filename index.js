@@ -36,12 +36,12 @@ var suicideLineNumberJson={
 var suicideLineJson={
   type:"web_url",
   url: "https://suicidepreventionlifeline.org",
-  title: "Suicide Lifelife"
+  title: "Suicide Lifelife Site"
 };
 var eatingLineJson={
   type:"web_url",
   url: "https://www.nationaleatingdisorders.org",
-  title: "Eating Disorder Line"
+  title: "Eating Disorder Site"
 };
 var eatingNumber={
   type: "phone_number",
@@ -51,7 +51,7 @@ var eatingNumber={
 var cyberCrimeJson={
   type:"web_url",
   url: "https://www.cybercivilrights.org",
-  title: "Cyber Civil Rights"
+  title: "Cyber Civil Rights Site"
 };
   
 
