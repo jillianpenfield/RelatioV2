@@ -24,24 +24,19 @@ var domesticAbusejson= {
 var domesticAbuseNumberjson={
   type: "phone_number",
   title: "Call Abuse Line Now!",
-  payload: "+18007997233" //this is my number just to see if it works
+  payload: "+18007997233" 
 
 };
-var suicideLineNumberJson={
-  type: "phone_number",
-  title: " 800-273-TALK",
-  payload: "+18002738255"
 
-};
 var suicideLineJson={
   type:"web_url",
   url: "https://suicidepreventionlifeline.org",
-  title: "Suicide Lifelife Site"
+  title: "Suicide Lifelife Website"
 };
 var eatingLineJson={
   type:"web_url",
   url: "https://www.nationaleatingdisorders.org",
-  title: "Eating Disorder Site"
+  title: "Eating Disorder Website"
 };
 var eatingNumber={
   type: "phone_number",
@@ -51,7 +46,7 @@ var eatingNumber={
 var cyberCrimeJson={
   type:"web_url",
   url: "https://www.cybercivilrights.org",
-  title: "Cyber Civil Rights Site"
+  title: "Cyber Civil Rights"
 };
   
 
