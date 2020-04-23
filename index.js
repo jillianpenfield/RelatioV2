@@ -29,7 +29,7 @@ var domesticAbuseNumberjson={
 };
 var suicideLineNumberJson={
   type: "phone_number",
-  title: "800-273-TALK",
+  title: "Call National Abuse Line Now! \n 800-273-TALK",
   payload: "+18002738255"
 
 };
