@@ -21,6 +21,12 @@ var domesticAbusejson= {
   url: "https://www.thehotline.org/help/",
   title: "National Abuse Line"
 };
+var domesticAbuseNumberjson={
+  type: "phone_number",
+  title: "Call Abuse Line Now!",
+  payload: "+15613463825" //this is my number just to see if it works
+
+}
 var suicideLineJson={
   type:"web_url",
   url: "https://suicidepreventionlifeline.org",
@@ -369,6 +375,7 @@ function customizeHelp(){
 
     if(!customHelp.includes(domesticAbusejson)){
       customHelp.push(domesticAbusejson);
+      customHelp.push(domesticAbuseNumberjson);
     }
 
     if(localMessages[message].includes("kill yourself") || localMessages[message].includes("kill myself")){
