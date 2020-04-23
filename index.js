@@ -394,7 +394,7 @@ function customizeHelp(){
       console.log("message is" +localMessages[message]);
       if(!customHelp.includes(suicideLineJson)){
         customHelp.push(suicideLineJson);
-        customHelp.push(suicideLineNumberJson);
+        //customHelp.push(suicideLineNumberJson);
       }
       
 
