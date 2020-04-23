@@ -19,11 +19,11 @@ var mostRecentAnalysis = new Map();
 var domesticAbusejson= {
   type:"web_url",
   url: "https://www.thehotline.org/help/",
-  title: "National Abuse Line"
+  title: "National Abuse Line Website"
 };
 var domesticAbuseNumberjson={
   type: "phone_number",
-  title: "Call National Abuse Line Now! \n1-800-799-SAFE",
+  title: "Call Abuse Line Now!",
   payload: "+18007997233" //this is my number just to see if it works
 
 };
