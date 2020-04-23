@@ -23,10 +23,16 @@ var domesticAbusejson= {
 };
 var domesticAbuseNumberjson={
   type: "phone_number",
-  title: "Call Abuse Line Now!",
-  payload: "+15613463825" //this is my number just to see if it works
+  title: "1-800-799-SAFE",
+  payload: "+18007997233" //this is my number just to see if it works
 
-}
+};
+var suicideLineNumberJson={
+  type: "phone_number",
+  title: "800-273-TALK",
+  payload: "+18002738255"
+
+};
 var suicideLineJson={
   type:"web_url",
   url: "https://suicidepreventionlifeline.org",
@@ -36,6 +42,11 @@ var eatingLineJson={
   type:"web_url",
   url: "https://www.nationaleatingdisorders.org",
   title: "Eating Disorder Line"
+};
+var eatingNumber={
+  type: "phone_number",
+  title:"800-731-FOOD",
+  payload: "+18009312237"
 };
 var cyberCrimeJson={
   type:"web_url",
@@ -383,6 +394,7 @@ function customizeHelp(){
       console.log("message is" +localMessages[message]);
       if(!customHelp.includes(suicideLineJson)){
         customHelp.push(suicideLineJson);
+        customHelp.push(suicideLineNumberJson);
       }
       
 
@@ -390,6 +402,7 @@ function customizeHelp(){
     if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
       if(!customHelp.includes(eatingLineJson)){
         customHelp.push(eatingLineJson);
+        customHelp.push(eatingNumber);
       }
       
     }
