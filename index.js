@@ -402,7 +402,7 @@ function customizeHelp(){
     if(localMessages[message].includes("fat") || localMessages[message].includes("pig")){
       if(!customHelp.includes(eatingLineJson)){
         customHelp.push(eatingLineJson);
-        customHelp.push(eatingNumber);
+       // customHelp.push(eatingNumber);
       }
       
     }
