@@ -19,7 +19,7 @@ var mostRecentAnalysis = new Map();
 var domesticAbusejson= {
   type:"web_url",
   url: "https://www.thehotline.org/help/",
-  title: "National Abuse Line Website"
+  title: "National Abuse Website"
 };
 var domesticAbuseNumberjson={
   type: "phone_number",
