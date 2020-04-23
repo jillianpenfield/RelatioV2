@@ -23,13 +23,13 @@ var domesticAbusejson= {
 };
 var domesticAbuseNumberjson={
   type: "phone_number",
-  title: "1-800-799-SAFE",
+  title: "Call National Abuse Line Now! \n1-800-799-SAFE",
   payload: "+18007997233" //this is my number just to see if it works
 
 };
 var suicideLineNumberJson={
   type: "phone_number",
-  title: "Call National Abuse Line Now! \n 800-273-TALK",
+  title: " 800-273-TALK",
   payload: "+18002738255"
 
 };
