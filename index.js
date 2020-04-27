@@ -2,6 +2,8 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+import {WATSON_KEY, FB_TOKEN } from 'config.js'
+
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
