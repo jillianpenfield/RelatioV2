@@ -12,8 +12,8 @@ app.listen((process.env.PORT || 5000));
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 var localMessages= [];
 var mostRecentAnalysis = new Map();
-//var accessToken=config.MY_FB_ACCESS_TOKEN;
-//var watsonKey=config.MY_WATSON_KEY;
+//var FB_TOKEN= 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'
+//var WATSON_KEY='CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq';
 
 //Resource Variables 
 var domesticAbusejson= {
@@ -57,7 +57,7 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 const toneAnalyzer = new ToneAnalyzerV3({
   version: '2017-09-21',
   authenticator: new IamAuthenticator({
-    apikey: process.env.WATSON_KEY,
+    apikey: WATSON_KEY,
   }),
   url: 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/311333bd-92e3-4c39-8a9e-6fd2fefc9335',
 });
@@ -110,7 +110,7 @@ function processPostback(event) {
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
-        access_token: process.env.FB_TOKEN,
+        access_token: FB_TOKEN,
         fields: "first_name"
       },
       method: "GET"
@@ -125,7 +125,7 @@ function processPostback(event) {
 function sendMessage(recipientId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.FB_TOKEN },
+    qs: {access_token: FB_TOKEN },
     method: "POST",
     json: {
       recipient: {id: recipientId},
@@ -140,7 +140,7 @@ function sendMessage(recipientId, message) {
 function sendHelpTemplate(recipientId, customizedResources){
   request({
     url: "https://graph.facebook.com/v6.0/me/messages", 
-    qs: {access_token: process.env.FB_TOKEN},
+    qs: {access_token: FB_TOKEN},
     method: "POST",
     json: {
       recipient: {id: recipientId},
@@ -163,7 +163,7 @@ function sendHelpTemplate(recipientId, customizedResources){
 function sendLocalHelp(recipientId){
   request({
     url: "https://graph.facebook.com/v6.0/me/messages", 
-    qs: {access_token: process.env.FB_TOKEN},
+    qs: {access_token: FB_TOKEN},
     method: "POST",
     json: {
       recipient: {id: recipientId},
