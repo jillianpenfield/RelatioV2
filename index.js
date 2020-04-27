@@ -2,7 +2,7 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
-import {WATSON_KEY, FB_TOKEN } from 'config.js'
+//import {WATSON_KEY, FB_TOKEN } from 'config.js'
 
 
 var app = express();
@@ -14,8 +14,8 @@ app.listen((process.env.PORT || 5000));
 var zipcodeRegEx= RegExp('[0-9][0-9][0-9][0-9][0-9]');
 var localMessages= [];
 var mostRecentAnalysis = new Map();
-//var FB_TOKEN= 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'
-//var WATSON_KEY='CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq';
+var FB_TOKEN= 'EAAliG7mvpQkBAHoWfPfpw4WyFUTW0N1zyLb8yrrHu6vLZBfCNE1I9ByMJ83JLaJZCnlgeqyU1Lu3HQyZAUzJa89wq2CYdpDGQZCKpeZAaOBoKoM13ME5UfC6FZBYJMMrJeZAz9sC5ZBjnI3D17fGNU1p1dvmbtzCwSioVM7ivB77OAZDZD'
+var WATSON_KEY='CPe_aYAKTNM7SoRHQ_l19BUScpLgT8x6mt7bE0T6eIWq';
 
 //Resource Variables 
 var domesticAbusejson= {
